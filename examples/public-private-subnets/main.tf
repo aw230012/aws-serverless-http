@@ -4,10 +4,10 @@ provider "aws" {
 
 module "vpc" {
     source = "../../modules/vpc"
-    cidr = "172.16.0.0/16"
+    cidr = var.vpc.cidr
     tags = {
-        Name = "MyVPC"
-        System = "public-private-demo"
+        Name = var.vpc.name
+        System = var.system-name
     }
 }
 
@@ -15,11 +15,11 @@ module "public-subnet" {
     source = "../../modules/vpc/subnet"
     vpc-id = module.vpc.vpc-id
     availability-zone = "us-east-2a"
-    cidr = "172.16.0.0/24"
+    cidr = var.vpc.public-subnet.cidr
 
     tags = {
-        Name = "MyPublicSubnet"
-        System = "public-private-demo"
+        Name = var.vpc.public-subnet.name
+        System = var.system-name
     }
 }
 
@@ -27,11 +27,11 @@ module "private-subnet" {
     source = "../../modules/vpc/subnet"
     vpc-id = module.vpc.vpc-id
     availability-zone = "us-east-2b"
-    cidr = "172.16.1.0/24"
+    cidr = var.vpc.private-subnet.cidr
 
     tags = {
-        Name = "MyPrivateSubnet"
-        System = "public-private-demo"
+        Name = var.vpc.private-subnet.name
+        System = var.system-name
     }
 }
 
@@ -62,7 +62,7 @@ module "subnets-acl" {
 
     tags = {
         Name = "PrivatePublicAcl"
-        System = "public-private-demo"
+        System = var.system-name
     }
 }
 
@@ -79,7 +79,7 @@ module "nat-gateway" {
 
     tags = {
         Name = "PrivatePublicGW"
-        System = "public-private-demo"
+        System = var.system-name
     }
 }
 
@@ -91,7 +91,7 @@ module "route-table-public" {
 
     tags = {
         Name = "PublicRouteTable"
-        System = "public-private-demo"
+        System = var.system-name
     }
 }
 
@@ -103,6 +103,6 @@ module "route-table-private" {
 
     tags = {
         Name = "PrivateRouteTable"
-        System = "public-private-demo"
+        System = var.system-name
     }
 }
