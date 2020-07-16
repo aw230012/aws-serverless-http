@@ -5,12 +5,14 @@ variable "tags" {
     })
 }
 
-variable "cidr" {
+variable "vpc-id" {
     type = string
-    default = "10.0.0.0/16"
 }
 
-variable "instance-tenancy" {
+variable "subnet-id" {
     type = string
-    default = "default"
+}
+
+variable "gateway-id" {
+    type = string
 }
