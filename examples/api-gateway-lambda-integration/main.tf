@@ -12,7 +12,7 @@ data "aws_lambda_function" "lambda-2" {
 
 # by using this method for the first lambda integration
 # we receive the default stage for free as this module
-# uses aws quickstart lambda integration
+# uses aws quick create lambda integration
 module "api-gateway" {
     source = "../../modules/http-api-gateway"
     name = var.api-gw-name
