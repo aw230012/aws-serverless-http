@@ -65,18 +65,18 @@ module "security-group" {
     }
 }
 
-module "lambda" {
+module "example-lambda-1" {
     source = "../../modules/lambda"
     s3 = {
-        bucket = var.s3.bucket
-        key = var.s3.key
+        bucket = "serverless-private-lambda-demo"
+        key = "private-lambda-demo-function/function.zip"
         object-version = ""
     }
-    name = var.lambda.name
-    description = var.lambda.description
-    handler = var.lambda.handler
+    name = "serverless-private-lambda"
+    description = "demoable private lambda"
+    handler = "index.handler"
     role-arn = module.lambda-iam.role-arn
-    runtime = var.lambda.runtime
+    runtime = "nodejs12.x"
 
     vpc-config = {
         subnet-ids = [data.aws_subnet.private-subnet.id]
@@ -84,7 +84,31 @@ module "lambda" {
     }
 
     tags = {
-        Name = var.lambda.name
+        Name = "serverless-private-lambda"
+        System = "public-private-demo"
+    }
+}
+
+module "example-lambda-2" {
+    source = "../../modules/lambda"
+    s3 = {
+        bucket = "serverless-private-lambda-demo"
+        key = "private-lambda-demo-function-2/index.zip"
+        object-version = ""
+    }
+    name = "serverless-private-lambda-2"
+    description = "demoable private lambda example 2"
+    handler = "index.handler"
+    role-arn = module.lambda-iam.role-arn
+    runtime = "nodejs12.x"
+
+    vpc-config = {
+        subnet-ids = [data.aws_subnet.private-subnet.id]
+        security-group-ids = [module.security-group.id]
+    }
+
+    tags = {
+        Name = "serverless-private-lambda-2"
         System = "public-private-demo"
     }
 }
